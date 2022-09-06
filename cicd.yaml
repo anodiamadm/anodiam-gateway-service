@@ -1,0 +1,25 @@
+branch:
+  feature:
+    env: "dev"
+    namespace: "dev-ns"
+    manifestDir: "./k8s"
+    project: "anodiamgcpproject"
+    cluster: "cluster-anodiam-dev"
+    region: "us-central1"
+    zone: "us-central1-c"
+  develop:
+    env: "uat"
+    namespace: "uat-ns"
+    manifestDir: "./k8s"
+    project: "anodiamgcpproject"
+    cluster: "cluster-anodiam-dev"
+    region: "us-central1"
+    zone: "us-central1-c"
+  main:
+    env: "prod"
+    namespace: "prod-ns"
+    manifestDir: "./k8s"
+    project: "anodiamgcpproject"
+    cluster: "cluster-anodiam-dev"
+    region: "us-central1"
+    zone: "us-central1-c"

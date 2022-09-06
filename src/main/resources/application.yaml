@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: "anodiam-gateway-service"
+  cloud:
+    gateway:
+      routes:
+        - id: anodiam_ui
+          uri: http://anodiam-ui.dev-ns.svc.cluster.local
+          predicates:
+            - Path=/dashboard/**
+          filters:
+            - RewritePath=/dashboard/(?<segment>.*), /$\{segment}
+        - id: anodiam_login
+          uri: http://anodiam-login-service.dev-ns.svc.cluster.local
+          predicates:
+            - Path=/anodiam-login-service/**
+          filters:
+            - RewritePath=/anodiam-login-service/(?<segment>.*), /$\{segment}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
