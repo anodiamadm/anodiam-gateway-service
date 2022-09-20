@@ -1,3 +1,7 @@
+libs:
+  - name: "anodiam-security-commons"
+    url: "https://github.com/anodiamadm/anodiam-security-commons.git"
+    branch: "main"
 branch:
   feature:
     env: "dev"
