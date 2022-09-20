@@ -31,15 +31,15 @@ spring:
         registration:
           google:
             provider: google
-            client-id: 740566870787-99ped384lb1lvt6eaqt12iidjp5vqiko.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${sm://GOOGLE_CLIENT_ID}
+            client-secret: ${sm://GOOGLE_CLIENT_SECRET}
             scope:
               - profile
               - email
           facebook:
             provider: facebook
-            clientId: 1379541745904838
-            clientSecret: ed19df7f580b216dea6897c8c0bb46ed
+            clientId: ${sm://FACEBOOK_CLIENT_ID}
+            clientSecret: ${sm://FACEBOOK_CLIENT_SECRET}
             scope:
               - email
               - public_profile
@@ -48,8 +48,9 @@ spring:
              userInfoUri: https://graph.facebook.com/me?fields=id,name,email,first_name,middle_name,last_name,picture
     anodiam:
       jwt:
-        secret: asdfSFS34wfsdfsdfSDSD32dfsddDDerQSNCK34SOWEK5354fdgdf4
+        secret: ${sm://ANODIAM_JWT_SIGNING_KEY}
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     defer-datasource-initialization: true
     hibernate:
@@ -61,6 +62,8 @@ spring:
     init:
       mode: always
   datasource:
+    username: anodiam_user
+    password: ${sm://ANODIAM_DB_SECRET}
     hikari:
       connectionTimeout: 20000
       maximumPoolSize: 5
