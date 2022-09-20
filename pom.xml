@@ -102,12 +102,6 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.anodiam</groupId>
-			<artifactId>anodiam-security-commons</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-
 		<!--  Test  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
