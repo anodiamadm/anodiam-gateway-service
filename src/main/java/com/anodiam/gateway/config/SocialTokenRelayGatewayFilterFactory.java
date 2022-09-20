@@ -2,6 +2,7 @@ package com.anodiam.gateway.config;
 
 import com.anodiam.gateway.data.model.AnodiamUser;
 import com.anodiam.gateway.data.service.AnodiamUserService;
+import com.anodiam.security.AnodiamJwtDecoder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.SneakyThrows;
@@ -41,6 +42,7 @@ public class SocialTokenRelayGatewayFilterFactory extends AbstractGatewayFilterF
         super(Object.class);
         this.clientManagerProvider = clientManagerProvider;
         this.anodiamUserService = anodiamUserService;
+        AnodiamJwtDecoder jwtDecoder = new AnodiamJwtDecoder();
     }
 
     @Override
