@@ -25,30 +25,29 @@ spring:
             - Path=/anodiam-test/**
           filters:
             - RewritePath=/anodiam-test/(?<segment>.*), /$\{segment}
+        - id: anodiam_profile_service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/profile/**
+          filters:
+            - RewritePath=/profile/(?<segment>.*), /$\{segment}
   security:
     oauth2:
       client:
         registration:
           google:
             provider: google
-            client-id: ${sm://GOOGLE_CLIENT_ID}
-            client-secret: ${sm://GOOGLE_CLIENT_SECRET}
             scope:
               - profile
               - email
           facebook:
             provider: facebook
-            clientId: ${sm://FACEBOOK_CLIENT_ID}
-            clientSecret: ${sm://FACEBOOK_CLIENT_SECRET}
             scope:
               - email
               - public_profile
         provider:
           facebook:
              userInfoUri: https://graph.facebook.com/me?fields=id,name,email,first_name,middle_name,last_name,picture
-    anodiam:
-      jwt:
-        secret: ${sm://ANODIAM_JWT_SIGNING_KEY}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
@@ -63,7 +62,6 @@ spring:
       mode: always
   datasource:
     username: anodiam_user
-    password: ${sm://ANODIAM_DB_SECRET}
     hikari:
       connectionTimeout: 20000
       maximumPoolSize: 5
@@ -72,3 +70,7 @@ spring:
 logging:
   level:
     root: INFO
+
+anodiam:
+  security:
+    enabled: false
