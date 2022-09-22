@@ -3,6 +3,8 @@ package com.anodiam.gateway.config;
 import com.anodiam.security.AnodiamAuthentication;
 import com.anodiam.security.AnodiamJwtDecoder;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -28,7 +30,9 @@ public class AnodiamAuthenticationFilter implements WebFilter {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+            return response.setComplete();
         }
         return chain.filter(exchange);
     }
