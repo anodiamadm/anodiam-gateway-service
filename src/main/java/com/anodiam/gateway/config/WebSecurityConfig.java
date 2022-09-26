@@ -1,6 +1,5 @@
 package com.anodiam.gateway.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,9 +24,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
         prePostEnabled = true)
 public class WebSecurityConfig {
 
-    @Value("${spring.security.anodiam.jwt.secret:INVALID_KEY}")
-    private String jwtSecret;
-
     @Bean
     public SecurityWebFilterChain configure(ServerHttpSecurity http, ReactiveClientRegistrationRepository clientRegistrationRepository) {
         http.logout().disable();
@@ -44,7 +40,7 @@ public class WebSecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .authorizationRequestResolver(this.authorizationRequestResolver(clientRegistrationRepository))
                 );
-        http.addFilterBefore(new AnodiamAuthenticationFilter(jwtSecret), SecurityWebFiltersOrder.AUTHENTICATION);
+        http.addFilterBefore(new AnodiamAuthenticationFilter(), SecurityWebFiltersOrder.AUTHENTICATION);
         return http.build();
     }
 

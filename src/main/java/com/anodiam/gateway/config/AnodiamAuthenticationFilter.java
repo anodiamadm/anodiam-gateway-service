@@ -15,11 +15,6 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 public class AnodiamAuthenticationFilter implements WebFilter {
-    private final String jwtSecret;
-
-    public AnodiamAuthenticationFilter(String jwtSecret) {
-        this.jwtSecret = jwtSecret;
-    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -28,7 +23,7 @@ public class AnodiamAuthenticationFilter implements WebFilter {
             if (headers.containsKey("Authorization")) {
                 if (headers.get("Authorization").get(0).startsWith("Bearer ")) {
                     final String token = headers.get("Authorization").get(0).replaceFirst("Bearer ", "");
-                    JwtDecoder jwtDecoder = new AnodiamJwtDecoder(jwtSecret);
+                    JwtDecoder jwtDecoder = new AnodiamJwtDecoder();
                     Jwt jwt = jwtDecoder.decode(token);
                     Authentication authentication = new AnodiamAuthentication(jwt);
                     return chain.filter(exchange).subscriberContext(ReactiveSecurityContextHolder.withAuthentication(authentication));
