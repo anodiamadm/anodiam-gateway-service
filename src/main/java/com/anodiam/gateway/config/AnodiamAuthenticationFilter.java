@@ -26,7 +26,7 @@ public class AnodiamAuthenticationFilter implements WebFilter {
                     JwtDecoder jwtDecoder = new AnodiamJwtDecoder();
                     Jwt jwt = jwtDecoder.decode(token);
                     Authentication authentication = new AnodiamAuthentication(jwt);
-                    return chain.filter(exchange).subscriberContext(ReactiveSecurityContextHolder.withAuthentication(authentication));
+                    return chain.filter(exchange).contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
                 }
             }
         } catch (Exception e) {
