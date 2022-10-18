@@ -1,0 +1,17 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${sm://GOOGLE_CLIENT_ID}
+            client-secret: ${sm://GOOGLE_CLIENT_SECRET}
+          facebook:
+            clientId: ${sm://FACEBOOK_CLIENT_ID}
+            clientSecret: ${sm://FACEBOOK_CLIENT_SECRET}
+    anodiam:
+      jwt:
+        secret: ${sm://ANODIAM_JWT_SIGNING_KEY}
+  datasource:
+    url: "jdbc:postgresql://postgresql-anodiam.infra-ns.svc.cluster.local:5432/anodiam"
+    password: ${sm://ANODIAM_DB_SECRET}

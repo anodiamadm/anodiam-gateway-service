@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: "anodiam-gateway-service"
+  cloud:
+    gateway:
+      default-filters:
+        - RewritePath=([^/])$,$1/ # must add trailing slash if not there for compatibility
+        - SocialTokenRelay=
+      routes:
+        - id: anodiam_ui
+          uri: http://anodiam-ui.dev-ns.svc.cluster.local
+          predicates:
+            - Path=/dashboard/**
+          filters:
+            - RewritePath=/dashboard/(?<segment>.*), /$\{segment}
+        - id: anodiam_login
+          uri: http://anodiam-login-service.dev-ns.svc.cluster.local
+          predicates:
+            - Path=/anodiam-login-service/**
+          filters:
+            - RewritePath=/anodiam-login-service/(?<segment>.*), /$\{segment}
+        - id: anodiam_test
+          uri: http://localhost:8081
+          predicates:
+            - Path=/anodiam-test/**
+          filters:
+            - RewritePath=/anodiam-test/(?<segment>.*), /$\{segment}
+        - id: anodiam_profile_service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/profile/**
+          filters:
+            - RewritePath=/profile/(?<segment>.*), /$\{segment}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            provider: google
+            scope:
+              - profile
+              - email
+          facebook:
+            provider: facebook
+            scope:
+              - email
+              - public_profile
+        provider:
+          facebook:
+             userInfoUri: https://graph.facebook.com/me?fields=id,name,email,first_name,middle_name,last_name,picture
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      "hibernate.default_schema": anodiam
+      "hibernate.jdbc.lob.non_contextual_creation": true
+  sql:
+    init:
+      mode: always
+  datasource:
+    username: anodiam_user
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+
+
+logging:
+  level:
+    root: INFO
+
+anodiam:
+  security:
+    enabled: false
